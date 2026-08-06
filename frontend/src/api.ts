@@ -26,6 +26,8 @@ export const api = {
     req<Session>('/api/sessions', { method: 'POST', body: JSON.stringify({ model }) }),
   deleteSession: (id: string) =>
     req<{ ok: boolean }>(`/api/sessions/${id}`, { method: 'DELETE' }),
+  renameSession: (id: string, title: string) =>
+    req<Session>(`/api/sessions/${id}`, { method: 'PATCH', body: JSON.stringify({ title }) }),
   messages: (id: string) => req<Message[]>(`/api/sessions/${id}/messages`),
   exportSession: (id: string) =>
     req<{ title: string; markdown: string }>(`/api/sessions/${id}/export`),

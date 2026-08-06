@@ -23,6 +23,17 @@ session_tasks: dict[str, asyncio.Task] = {}
 sid_session: dict[str, str] = {}
 
 
+def _auto_title(content: str, max_len: int = 30) -> str:
+    """从首条消息生成会话标题：压缩空白 + 词边界截断 + 省略号。"""
+    text = " ".join(content.split())
+    if len(text) <= max_len:
+        return text
+    cut = text[:max_len]
+    if " " in cut:
+        cut = cut[: cut.rfind(" ")]
+    return cut + "…"
+
+
 @sio.event
 async def connect(sid, environ, auth):
     logger.info("客户端连接: %s", sid)
@@ -57,6 +68,15 @@ async def on_chat_message(sid, data):
     content = (data.get("content") or "").strip()
     if not session_id or not content:
         return
+    # 首条消息自动起标题（仍是默认"新会话"时）
+    db = SessionLocal()
+    try:
+        s = db.get(SessionModel, session_id)
+        if s and s.title == "新会话":
+            s.title = _auto_title(content)
+            db.commit()
+    finally:
+        db.close()
     # 若该会话正在运行，拒绝重复消息
     existing = session_tasks.get(session_id)
     if existing and not existing.done():

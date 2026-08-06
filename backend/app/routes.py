@@ -82,6 +82,27 @@ def delete_session(session_id: str, db: Session = Depends(get_db)):
     return {"ok": True}
 
 
+class SessionRename(BaseModel):
+    title: str
+
+
+@router.patch("/api/sessions/{session_id}")
+def rename_session(session_id: str, body: SessionRename, db: Session = Depends(get_db)):
+    s = db.get(SessionModel, session_id)
+    if not s:
+        raise HTTPException(404, "会话不存在")
+    title = body.title.strip()
+    if not title:
+        raise HTTPException(400, "标题不能为空")
+    s.title = title[:200]
+    db.commit()
+    return {
+        "id": s.id, "title": s.title, "model": s.model,
+        "status": s.status, "created_at": s.created_at.isoformat(),
+        "updated_at": s.updated_at.isoformat(),
+    }
+
+
 @router.get("/api/sessions/{session_id}/export")
 def export_session(session_id: str, db: Session = Depends(get_db)):
     s = db.get(SessionModel, session_id)

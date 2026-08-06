@@ -27,7 +27,9 @@
 
 ## 🖼️ 界面预览
 
-> 截图待补充 —— 上传前把界面截图放到 `docs/screenshots/` 并在这里引用。
+![MyAgent 主界面](./docs/screenshots/screenshot_1.png)
+
+> 左侧会话列表 · 中间对话流与工具调用卡片 · 右侧文件树 / 流程图 / 终端面板
 
 ## 🚀 快速开始
 

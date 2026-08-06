@@ -30,6 +30,7 @@ interface AppState {
   selectSession: (id: string) => Promise<void>
   newSession: () => Promise<void>
   deleteSession: (id: string) => Promise<void>
+  renameSession: (id: string, title: string) => Promise<void>
   sendMessage: (content: string) => void
   stopRun: () => void
   approve: (callId: string, approved: boolean) => void
@@ -107,6 +108,11 @@ export const useStore = create<AppState>((set, get) => ({
       if (first) await get().selectSession(first.id)
       else set({ currentSessionId: null, messages: [], streamingText: '', toolRuns: [] })
     }
+  },
+
+  renameSession: async (id: string, title: string) => {
+    const updated = await api.renameSession(id, title)
+    set({ sessions: get().sessions.map((x) => (x.id === id ? updated : x)) })
   },
 
   sendMessage: (content: string) => {
