@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #0f1117;
+  color: #e5e7eb;
+  overscroll-behavior: none;
+}
+
+/* 滚动条 */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #2c3140; border-radius: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Markdown 内容样式 */
+.md-body { line-height: 1.7; font-size: 14px; }
+.md-body p { margin: 6px 0; }
+.md-body pre {
+  background: #161b26; border: 1px solid #2a3140; border-radius: 8px;
+  padding: 10px 12px; overflow-x: auto; margin: 8px 0;
+}
+.md-body code:not(pre code) {
+  background: #1f2433; padding: 2px 6px; border-radius: 4px;
+  font-size: 13px; color: #f472b6;
+}
+.md-body pre code { background: transparent; padding: 0; color: #d6e2f0; }
+.md-body ul, .md-body ol { padding-left: 22px; margin: 6px 0; }
+.md-body ul { list-style: disc; }
+.md-body ol { list-style: decimal; }
+.md-body h1, .md-body h2, .md-body h3 { color: #f3f4f6; margin: 12px 0 6px; }
+.md-body h1 { font-size: 18px; } .md-body h2 { font-size: 16px; } .md-body h3 { font-size: 15px; }
+.md-body table { border-collapse: collapse; margin: 8px 0; }
+.md-body th, .md-body td { border: 1px solid #2a3140; padding: 4px 8px; font-size: 13px; }
+.md-body a { color: #60a5fa; }
+.md-body blockquote { border-left: 3px solid #3b4252; padding-left: 10px; color: #9ca3af; margin: 8px 0; }
+
+/* 正在思考的光标 */
+.thinking-cursor::after {
+  content: '▌';
+  animation: blink 1s steps(1) infinite;
+  color: #60a5fa;
+}
+@keyframes blink { 50% { opacity: 0; } }
